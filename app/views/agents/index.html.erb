@@ -1,0 +1,19 @@
+<div class="container mt-5">
+  <h1 class="mb-4">All Agents</h1>
+  <%= link_to 'Create Agent', new_agent_path, class: 'btn btn-primary mb-3' %>
+
+  <h3 class="mb-3">Agents</h3>
+  <div class="row">
+    <% @agents.each do |agent| %>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title"><%= agent.name %></h4>
+            <p class="card-text"><%= agent.model %></p>
+            <%= link_to 'View', agent_path(agent), class: 'btn btn-primary' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
