@@ -1,0 +1,39 @@
+<div class="container mt-4">
+    <h1 class="display-4"><%= @conversation.title %></h1>
+    <p class="lead">A conversation between <%= @agents.count %> agents.</p>
+    
+    <div class="card my-4">
+      <div class="card-header">
+        Agents Involved
+      </div>
+      <ul class="list-group list-group-flush">
+        <% @agents.each do |agent| %>
+          <li class="list-group-item"><%= agent.name %></li>
+        <% end %>
+      </ul>
+    </div>
+  
+    <div class="card my-4">
+      <div class="card-header">
+        Conversation Controls
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <%= link_to 'Increment Conversation', increment_conversation_path(@conversation), class: 'btn btn-primary' %>
+          </div>
+          <div class="col">
+            <%= link_to 'Automate Conversation (5)', conversation_path(@conversation), class: 'btn btn-secondary' %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <% if @conversation.messages.any? %>
+        <% @conversation.messages.each do |message| %>
+          <div class="my-3">
+            <%= render 'message', message: message %>
+          </div>
+        <% end %>
+      <% end %>
+  </div>

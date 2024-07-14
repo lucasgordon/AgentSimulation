@@ -17,6 +17,8 @@ class Agent < ApplicationRecord
 
 
   has_many :messages
-  has_many :conversations, through: :messages
+  has_many :conversation_agents
+  has_many :conversations, through: :conversation_agents
+
 
 end

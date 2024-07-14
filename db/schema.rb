@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_13_185426) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_13_203059) do
   create_table "agents", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -21,12 +21,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_185426) do
     t.float "top_p"
   end
 
+  create_table "conversation_agents", force: :cascade do |t|
+    t.integer "agent_id", null: false
+    t.integer "conversation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_id"], name: "index_conversation_agents_on_agent_id"
+    t.index ["conversation_id"], name: "index_conversation_agents_on_conversation_id"
+  end
+
   create_table "conversations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "agent_id", null: false
-    t.string "model_ids"
-    t.index ["agent_id"], name: "index_conversations_on_agent_id"
+    t.string "title"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -39,7 +46,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_185426) do
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
-  add_foreign_key "conversations", "agents"
+  add_foreign_key "conversation_agents", "agents"
+  add_foreign_key "conversation_agents", "conversations"
   add_foreign_key "messages", "agents"
   add_foreign_key "messages", "conversations"
 end

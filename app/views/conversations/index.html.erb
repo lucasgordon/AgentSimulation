@@ -1,0 +1,19 @@
+<div class="container mt-5">
+    <h1 class="mb-4">Conversations</h1>
+    <%= link_to 'Create Conversation', new_conversation_path, class: 'btn btn-primary mb-3' %>
+  
+    <div class="row">
+      <% @conversations.each do |conversation| %>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title"><%= conversation.title %></h4>
+              <p class="card-text">Agents: <%= conversation.agents.count %></p>
+              <%= link_to 'View', conversation_path(conversation), class: 'btn btn-primary' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  
