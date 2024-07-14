@@ -29,20 +29,32 @@ class Conversation < ApplicationRecord
 
     message = PromptService.new(content: context_prompt, system: system_prompt, model: agent.model, temperature: agent.temperature).prompt
 
-    message["choices"][0]["message"]["content"]
+    if Agent::OPENAI_MODELS.include?(agent.model)
+      message["choices"][0]["message"]["content"]
+    elsif Agent::COHERE_MODELS.include?(agent.model)
+      message["text"]
+    end
   end
 
   def prompt(agent)
     """
     Your name is #{agent.name}.
 
-    You are in a conversation with #{agents.reject { |a| a == agent }.map(&:name).to_sentence}. The last message was from #{last_message_agent&.name}. If there was no last message, you get to
-    say the first message, congrats! You can say anything you want.
+    You are in a conversation with #{agents.reject { |a| a == agent }.map(&:name).to_sentence}.
 
-    Respond to the last message with your own message. Limit your response to maximum three sentences. 
+    The topic of the conversation is #{topic}. When it comes to a topic, form an opinion and provide evidence. You are open to changing your mind if your convinced. You can also try to convince others.
+
+    The last message was from #{last_message_agent&.name}. If there was no last message, you get to
+    say the first message, congrats! You can say anything you want. Make the conversation go in a certain direction, versus staying surface level and just doing introductions. There is no need to introduce yourself every message.
+
+    Respond to the last message with your own message. Limit your response to maximum three sentences.
 
     The history of previous messages in this conversation, if any, are: #{messages.map { |message| "#{message.agent.name} said: #{message.message_text}" }.join("\n")}
     """
+  end
+
+  def reset
+    messages.destroy_all
   end
 
 

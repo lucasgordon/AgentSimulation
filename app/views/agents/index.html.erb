@@ -10,7 +10,14 @@
           <div class="card-body">
             <h4 class="card-title"><%= agent.name %></h4>
             <p class="card-text"><%= agent.model %></p>
-            <%= link_to 'View', agent_path(agent), class: 'btn btn-primary' %>
+            <div class="row">
+              <div class="col">
+                <%= link_to 'View', agent_path(agent), class: 'btn btn-primary' %>
+              </div>
+              <div class="col">
+                <%= button_to 'Edit', edit_agent_path(agent), method: :get, class: 'btn btn-secondary' %>
+              </div>
+            </div>
           </div>
         </div>
       </div>

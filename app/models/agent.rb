@@ -4,6 +4,23 @@ class Agent < ApplicationRecord
     "gpt-3.5-turbo-0125",
     "gpt-4-turbo",
     "gpt-4o",
+    "command-r-plus",
+    "command-r",
+    "command-nightly",
+    "command"
+  ].freeze
+
+  OPENAI_MODELS = [
+    "gpt-3.5-turbo-0125",
+    "gpt-4-turbo",
+    "gpt-4o"
+  ].freeze
+
+  COHERE_MODELS = [
+    "command-r-plus",
+    "command-r",
+    "command-nightly",
+    "command"
   ].freeze
 
 
@@ -16,9 +33,9 @@ class Agent < ApplicationRecord
   validates :top_p, inclusion: { in: 0.0..1.0 }
 
 
-  has_many :messages
-  has_many :conversation_agents
-  has_many :conversations, through: :conversation_agents
+  has_many :messages, dependent: :destroy
+  has_many :conversation_agents, dependent: :destroy
+  has_many :conversations, through: :conversation_agents, dependent: :destroy
 
 
 end
