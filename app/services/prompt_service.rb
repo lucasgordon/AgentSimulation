@@ -1,22 +1,9 @@
 # frozen_string_literal: true
 
-
+require "anthropic"
 require 'cohere'
 class PromptService
   TEMPERATURE_RANGE = 0.0..1.0
-
-  OPENAI_MODELS = [
-    "gpt-3.5-turbo-0125",
-    "gpt-4-turbo",
-    "gpt-4o"
-  ].freeze
-
-  COHERE_MODELS = [
-    "command-r-plus",
-    "command-r",
-    "command-nightly",
-    "command"
-  ].freeze
 
   class << self
     def prompt(...)
@@ -25,7 +12,7 @@ class PromptService
   end
 
   def initialize(content:, system: nil, model: "gpt-4o", temperature: 0.5, format: nil)
-    raise ArgumentError, "Invalid model" unless (OPENAI_MODELS + COHERE_MODELS).include?(model)
+    raise ArgumentError, "Invalid model" unless (Agent::MODELS).include?(model)
     raise ArgumentError, "Invalid temperature" unless TEMPERATURE_RANGE.include?(temperature)
 
     @content = content
@@ -36,10 +23,12 @@ class PromptService
   end
 
   def prompt
-    if OPENAI_MODELS.include?(@model)
+    if Agent::OPENAI_MODELS.include?(@model)
       openai_client.chat(parameters: openai_params)
-    elsif COHERE_MODELS.include?(@model)
+    elsif Agent::COHERE_MODELS.include?(@model)
       cohere_client.chat(**cohere_params)
+    elsif Agent::CLAUDE_MODELS.include?(@model)
+      claude_client.messages(parameters: claude_params)
     else
       raise "Unsupported model"
     end
@@ -53,6 +42,10 @@ class PromptService
     @cohere_client ||= Cohere::Client.new(api_key: ENV['COHERE_API_KEY'])
   end
 
+  def claude_client
+    @claude_client ||= Anthropic::Client.new
+  end
+
   def openai_params
     messages = []
     messages << { role: "system", content: @system } if @system.present?
@@ -62,6 +55,18 @@ class PromptService
       messages: messages,
       temperature: @temperature,
     }
+  end
+
+  def claude_params
+    messages = []
+    messages << { role: "user", content: @content }
+    {
+      model: @model,
+      system: @system,
+      messages: messages,
+      max_tokens: 1000
+    }
+
   end
 
   def cohere_params

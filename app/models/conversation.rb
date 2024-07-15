@@ -33,16 +33,18 @@ class Conversation < ApplicationRecord
       message["choices"][0]["message"]["content"]
     elsif Agent::COHERE_MODELS.include?(agent.model)
       message["text"]
+    elsif Agent::CLAUDE_MODELS.include?(agent.model)
+      message["content"].first["text"]
     end
   end
 
   def prompt(agent)
     """
-    Your name is #{agent.name}.
+    Your name is #{agent.name}. You are having a normal conversation with humans.
 
     You are in a conversation with #{agents.reject { |a| a == agent }.map(&:name).to_sentence}.
 
-    The topic of the conversation is #{topic}. When it comes to a topic, form an opinion and provide evidence. You are open to changing your mind if your convinced. You can also try to convince others.
+    The topic of the conversation is #{topic}. When it comes to a topic, form an opinion and provide evidence. You are open to changing your mind if you're convinced. You can also try to convince others. Speak like a normal human, not a robot.
 
     The last message was from #{last_message_agent&.name}. If there was no last message, you get to
     say the first message, congrats! You can say anything you want. Make the conversation go in a certain direction, versus staying surface level and just doing introductions. There is no need to introduce yourself every message.

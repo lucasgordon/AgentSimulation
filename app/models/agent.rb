@@ -7,7 +7,10 @@ class Agent < ApplicationRecord
     "command-r-plus",
     "command-r",
     "command-nightly",
-    "command"
+    "command",
+    "claude-3-opus-20240229",
+    "claude-3-sonnet-20240229",
+    "claude-3-haiku-20240307"
   ].freeze
 
   OPENAI_MODELS = [
@@ -21,6 +24,12 @@ class Agent < ApplicationRecord
     "command-r",
     "command-nightly",
     "command"
+  ].freeze
+
+  CLAUDE_MODELS = [
+    "claude-3-opus-20240229",
+    "claude-3-sonnet-20240229",
+    "claude-3-haiku-20240307"
   ].freeze
 
 
