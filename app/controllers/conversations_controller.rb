@@ -1,6 +1,9 @@
 class ConversationsController < ApplicationController
+
+  before_action :require_user_signin
+
   def index
-    @conversations = Conversation.all
+    @conversations = current_user.conversations
   end
 
   def show
@@ -46,12 +49,13 @@ class ConversationsController < ApplicationController
 
   def new
     @conversation = Conversation.new
-    @agents = Agent.all
+    @agents = current_user.agents
   end
 
   def create
     @conversation = Conversation.new(conversation_params)
-    @agents = Agent.all
+    @conversation.user_id = current_user.id
+    @agents = current_user.agents
 
     agent_ids = params[:conversation][:agent_ids]
     if agent_ids.present?

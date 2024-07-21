@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_16_222457) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_21_182918) do
   create_table "agents", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -19,6 +19,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_222457) do
     t.float "temperature"
     t.text "system_prompt"
     t.float "top_p"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_agents_on_user_id"
   end
 
   create_table "conversation_agents", force: :cascade do |t|
@@ -35,6 +37,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_222457) do
     t.datetime "updated_at", null: false
     t.string "title"
     t.text "topic"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_conversations_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|

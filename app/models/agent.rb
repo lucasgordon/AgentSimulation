@@ -51,5 +51,7 @@ class Agent < ApplicationRecord
   has_many :conversation_agents, dependent: :destroy
   has_many :conversations, through: :conversation_agents, dependent: :destroy
 
+  belongs_to :user
+
 
 end

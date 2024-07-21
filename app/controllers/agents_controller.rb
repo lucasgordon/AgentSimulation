@@ -1,6 +1,9 @@
 class AgentsController < ApplicationController
+
+  before_action :require_user_signin
+
   def index
-    @agents = Agent.all
+    @agents = current_user.agents
   end
 
   def new
@@ -32,6 +35,7 @@ class AgentsController < ApplicationController
 
   def create
     @agent = Agent.new(agent_params)
+    @agent.user_id = current_user.id
     if @agent.save
       redirect_to agents_path
     else

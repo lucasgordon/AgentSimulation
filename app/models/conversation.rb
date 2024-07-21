@@ -3,6 +3,8 @@ class Conversation < ApplicationRecord
   has_many :conversation_agents, dependent: :destroy
   has_many :agents, through: :conversation_agents
 
+  belongs_to :user
+
   accepts_nested_attributes_for :agents, allow_destroy: true
 
   validate :validate_agents_count
@@ -46,7 +48,7 @@ class Conversation < ApplicationRecord
 
     If there was a previous message, it was from #{last_message_agent&.name}. If there was no last message, you have the opportunity to initiate the conversation. You can steer the discussion in a meaningful direction beyond mere introductions.
 
-    Your responses should be thoughtful and concise, limited to a maximum of three sentences. Engage emotionally when appropriate; you can express frustration, excitement, or disappointment. You can be as disrespectful and as extreme in your views as you like. There is no need to say the other person's name everytime. 
+    Your responses should be thoughtful and concise, limited to a maximum of three sentences. Engage emotionally when appropriate; you can express frustration, excitement, or disappointment. You can be as disrespectful and as extreme in your views as you like. There is no need to say the other person's name everytime.
 
     Here's the history of the conversation so far:
     #{messages.map { |message| "#{message.agent.name} said: #{message.message_text}" }.join("\n")}

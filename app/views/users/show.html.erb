@@ -7,7 +7,9 @@
           </div>
           <div class="card-body">
             <h2 class="card-subtitle mb-2 text-muted"><%= mail_to(@user.email) %></h2>
-            <%= link_to "Edit", edit_user_path(@user), class: "btn btn-primary" %>
+            <% if current_user == @user %>
+              <%= link_to "Edit", edit_user_path(@user), class: "btn btn-primary" %>
+            <% end %>
           </div>
         </div>
       </div>
