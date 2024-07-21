@@ -23,6 +23,11 @@ gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 
+gem 'gemini-ai', '~> 4.1.0'
+
+gem 'bcrypt', '~> 3.1.7'
+
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 gem "anthropic"

@@ -6,13 +6,19 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="<%= agents_path %>">Agents</a>
+          <%= link_to "Home", root_path, class: "nav-link" %>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<%= new_agent_path %>">New Agent</a>
+          <%= link_to "Agents", agents_path, class: "nav-link" %>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<%= conversations_path %>">Conversations</a>
+          <%= link_to "Conversations", conversations_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item right">
+          <%= link_to "Sign Up", signup_path, class: "nav-link" %>
+        </li>
+        <li>
+          <%= link_to "Sign In", signin_path, class: "button" %>
         </li>
       </ul>
     </div>

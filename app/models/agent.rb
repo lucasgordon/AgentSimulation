@@ -10,7 +10,8 @@ class Agent < ApplicationRecord
     "command",
     "claude-3-opus-20240229",
     "claude-3-sonnet-20240229",
-    "claude-3-haiku-20240307"
+    "claude-3-haiku-20240307",
+    "gemini-pro"
   ].freeze
 
   OPENAI_MODELS = [
@@ -31,6 +32,10 @@ class Agent < ApplicationRecord
     "claude-3-sonnet-20240229",
     "claude-3-haiku-20240307"
   ].freeze
+
+  GEMINI_MODELS = [
+    "gemini-pro"
+  ]
 
 
   validates :name, presence: true

@@ -2,6 +2,8 @@
 
 require "anthropic"
 require 'cohere'
+require 'gemini-ai'
+
 class PromptService
   TEMPERATURE_RANGE = 0.0..1.0
 
