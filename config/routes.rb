@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   resources :agents
   resources :conversations do
     member do
-      get 'increment'
+      post 'increment'
       get 'reset'
+      post 'start_simulation'
     end
   end
   resources :messages

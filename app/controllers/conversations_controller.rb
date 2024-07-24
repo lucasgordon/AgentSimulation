@@ -70,10 +70,22 @@ class ConversationsController < ApplicationController
     end
   end
 
+
   def increment
     @conversation = Conversation.find(params[:id])
-    @conversation.new_message
-    redirect_to @conversation
+    @message = @conversation.new_message
+
+    respond_to do |format|
+      format.html { redirect_to @conversation }
+      format.turbo_stream
+    end
+  end
+
+  def start_simulation
+    steps = params[:steps].to_i
+    @conversation = Conversation.find(params[:id])
+    ConversationSimulationJob.perform_later(@conversation.id, steps, current_user.email)
+    redirect_to @conversation, notice: 'Simulation started'
   end
 
   private

@@ -29,7 +29,15 @@
       <div class="card-body">
         <div class="row">
           <div class="col-3">
-            <%= link_to 'Increment Conversation', increment_conversation_path(@conversation), class: 'btn btn-primary' %>
+          <%= turbo_frame_tag "increment_button" do %>
+            <%= link_to 'Increment Conversation', increment_conversation_path(@conversation), class: 'btn btn-primary', data: { turbo_method: :post, turbo_frame: "increment_button" } %>
+          <% end %>
+          <%= turbo_frame_tag "simulation_button" do %>
+            <%= form_with(url: start_simulation_conversation_path(@conversation), local: true) do |form| %>
+              <%= form.number_field :steps, placeholder: "Number of increments" %>
+              <%= form.submit "Start Simulation" %>
+            <% end %>
+          <% end %>
           </div>
           <div class="col-3">
             <div class="btn-group" role="group">
@@ -46,12 +54,11 @@
         </div>
       </div>
     </div>
-
+    <div id="messages">
       <% if @conversation.messages.any? %>
         <% @conversation.messages.each do |message| %>
-          <div class="my-3">
-            <%= render 'message', message: message %>
-          </div>
+              <%= render 'message', message: message, animate: false %>
         <% end %>
       <% end %>
+    </div>
   </div>

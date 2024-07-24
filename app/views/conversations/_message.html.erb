@@ -1,9 +1,9 @@
 <% @message = message %>
-    <div>
-        <div class="card-header fw-bold">
-            <%= @message.agent.name %>
-        </div>
-        <div class="card-body">
-            <p class="card-text"><%= @message.message_text %></p>
-        </div>
+<div data-controller="message-animation" data-animate="<%= animate ? 'true' : 'false' %>" class="my-3">
+    <div class="card-header fw-bold">
+        <%= @message.agent.name %>
     </div>
+    <div class="card-body">
+        <p class="card-text" data-message-animation-target="text"><%= @message.message_text %></p>
+    </div>
+</div>
